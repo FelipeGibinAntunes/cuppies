@@ -873,3 +873,4 @@ $databases['default']['default'] = array (
   'autoload' => 'core/modules/mysql/src/Driver/Database/mysql/',
 );
 $settings['config_sync_directory'] = 'sites/default/files/config_uG0_hr1zQV_Yoyn721ucz86bpQbHZs654TobULNHfXoqhDsQc34ruwYKUPoAIe_bi2s18VTkBA/sync';
+$settings['trusted_host_patterns'] = array('^cuppies$');

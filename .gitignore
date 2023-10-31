@@ -63,3 +63,4 @@
 
 # Ignore local files
 .htaccess
+.vscode
