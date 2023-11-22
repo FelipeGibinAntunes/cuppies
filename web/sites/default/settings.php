@@ -874,3 +874,4 @@ $databases['default']['default'] = array (
 );
 $settings['config_sync_directory'] = 'sites/default/files/config_uG0_hr1zQV_Yoyn721ucz86bpQbHZs654TobULNHfXoqhDsQc34ruwYKUPoAIe_bi2s18VTkBA/sync';
 $settings['trusted_host_patterns'] = array('^cuppies$');
+ini_set('memory_limit', '500M');

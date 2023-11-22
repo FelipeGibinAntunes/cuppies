@@ -1,0 +1,97 @@
+<?php
+
+/**
+ * Implements template_preprocess_html().
+ */
+function cuppies_theme_preprocess_html(&$variables) {
+    $node = \Drupal::routeMatch()->getParameter('node');
+    if ($node) {
+      if ($node->id() == 12 | $node->id() == 13 | $node->id() == 14) {
+        $variables['attributes']['style'] = 'background-color: white; font-family: jua;';
+      }
+      else {
+        $variables['attributes']['style'] = 'background-color: #EB8F70; font-family: jua;';
+      }
+    }
+}
+
+/**
+ * Implements template_preprocess_block().
+ */
+function cuppies_theme_preprocess_block(&$variables) {
+    if ($variables['attributes']['id'] === 'block-cuppies-theme-views-block-personal-information-block-1') {
+        $variables['attributes']['class'] = 'personal-information-block';
+    }
+    if ($variables['attributes']['id'] === 'block-cuppies-theme-views-block-payment-block-1') {
+      $variables['attributes']['class'] = 'payment-block';
+    }
+    if ($variables['attributes']['id'] === 'block-cuppies-theme-views-block-address-block-1') {
+      $variables['attributes']['class'] = 'address-block';
+    }
+}
+
+/**
+ * Implements template_preprocess_views_view_unformatted().
+ */
+function cuppies_theme_preprocess_views_view_unformatted(&$variables) {
+  $node = \Drupal::routeMatch()->getParameter('node');
+  if ($node) {
+    $variables['pagetitle'] = $node->getTitle();
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function cuppies_theme_form_user_register_form_alter(&$form, &$form_state, $form_id) {
+  $form['actions']['submit']['#value'] = 'Register';
+}
+
+/**
+ * Implements template_preprocess_node().
+ */
+function cuppies_theme_preprocess_node(&$variables) {
+  $node = \Drupal::routeMatch()->getParameter('node');
+  if ($node->getType() == 'product') {
+    $variables['content_attributes'] = ['class' => 'product-class'];
+    $variables['isProduct'] = true;
+    $variables['ProductForm'] = \Drupal::formBuilder()->getForm('Drupal\cuppies_theme\Form\ProductForm');
+  }
+  if ($node) {
+    if ($node->id() == 25) {
+      $variables['isCart'] = true;
+      $variables['CartForm'] = \Drupal::formBuilder()->getForm('Drupal\cuppies_theme\Form\CartForm');
+  }}
+}
+
+/**
+ * Implements template_preprocess_field().
+ */
+function cuppies_theme_preprocess_field(&$variables) {
+  $variables['attributes'] = ['class' => $variables['field_name']];
+  if (array_key_exists('#image_style', $variables['items'][0]['content'])) {
+    if ( $variables['items'][0]['content']['#image_style'] == 'product_style'){
+      $variables['items'][0]['content']['#item_attributes'] = ['class' => 'product-image'];
+    }
+  }
+}
+
+/**
+ * Implements template_preprocess_image().
+ */
+function cuppies_theme_preprocess_image(&$variables) {
+  if ($variables['width'] == 77) {
+    $variables['attributes']['class'] = 'product-view-image';
+  }
+}
+
+/**
+ * Implements template_preprocess_views_view_field().
+ */
+function cuppies_theme_preprocess_views_view_field(&$variables) {
+    $originalString = $variables['output'];
+    $toBeReplaced = '<a href="/web/node/5" hreflang="en">';
+    $replacement = '<a class="product-view-title" href="/web/node/5" hreflang="en">';
+
+    $newString = str_replace($toBeReplaced, $replacement, $originalString);
+}
