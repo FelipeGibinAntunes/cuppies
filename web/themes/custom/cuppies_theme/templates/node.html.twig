@@ -70,6 +70,10 @@
 #}
 <article{{ attributes }}>
 
+    {% if isProduct or isCart %}
+      <button class="back-button" onclick="window.location='main';" type="button">Return</button>
+    {% endif %}
+
   {{ title_prefix }}
   {% if label and not page %}
     <h2{{ title_attributes }}>

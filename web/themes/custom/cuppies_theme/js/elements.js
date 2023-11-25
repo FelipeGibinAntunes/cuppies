@@ -1,6 +1,7 @@
 (function ($) {
     Drupal.behaviors.removeClassName = {
       attach: function (context, settings) {
+        console.log('attached');
         // Replace 'your-login' with the selector of the desired HTML login.
         var login = $('.login-popup-form', context);
         var register = $('.register-popup-form', context);

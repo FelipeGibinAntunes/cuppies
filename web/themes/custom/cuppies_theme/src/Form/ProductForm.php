@@ -14,16 +14,32 @@ class ProductForm extends FormBase {
   $node = \Drupal::routeMatch()->getParameter('node');
 
     // Textfield form element.
-   $form['product_quantity'] = array(
-     '#type' => 'number',
-     '#title' => t('Quantity:'),
-     '#default_value' => 1,
-     '#min' => 1,
-     '#max' => 99,
-     '#prefix' => '<div class="quantity-wrapper">',
-     '#suffix' => '</div>',
-   );
-   //submit button.
+    $form['product_quantity'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Quantity:'),
+      '#default_value' => 1,
+      '#min' => 1,
+      '#max' => 99,
+      '#prefix' => '<div class="quantity-wrapper">',
+      '#suffix' => '</div>',
+      '#attributes' => array(
+        'class' => array('quantity-input'),
+      ),
+    );
+
+    // Add plus button.
+    $form['plus'] = array(
+      '#markup' => '<input type="button" value="+" class="quantity-button quantity-plus">',
+      '#allowed_tags' => ['input'],
+    );
+
+    // Add minus button.
+    $form['minus'] = array(
+      '#markup' => '<input type="button" value="-" class="quantity-button quantity-minus">',
+      '#allowed_tags' => ['input'],
+    );
+
+   // Submit button.
    $form['actions']['submit'] = array(
      '#type' => 'submit',
      '#value' => '+$'.$node->get('field_price')->value,

@@ -364,7 +364,7 @@ button[role="tab"] {
 }
 
 .views-field-name {
-    display: flex;
+   /* display: flex;*/
 }
 
 .form-item-field-phone-0-value {
@@ -476,6 +476,7 @@ button[role="tab"] {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 10px;
 }
 
 .field_tags {
@@ -545,10 +546,14 @@ fieldset {
 
 .clear-cart {
     position: unset;
+    font-size: 26px;
+    -webkit-text-stroke: 2px #9E553C;
 }
 
 .submit-cart {
     position: unset;
+    font-size: 26px;
+    -webkit-text-stroke: 2px #9E553C;
 }
 
 .product-form {
@@ -570,16 +575,18 @@ fieldset {
     -webkit-text-stroke: 1.5px #9E553C;
     font-size: 22px;
     position: relative;
+    top: -44px;
 }
 
 .field-content {
     text-align: center;
-    height: 64px;
+     /* height: 64px;*/
 }
 
 .views-field-title {
     display: flex;
     justify-content: center;
+    height: 32px;
 }
 
 .font-your-face {
@@ -606,4 +613,32 @@ fieldset {
 
 .form-number {
     width: 14px;
+}
+
+.back-button {
+    text-decoration: none;
+    background-color: #FFAF94;
+    display: inline-block;
+    text-align: center;
+    border-radius: 28px;
+    border-width: 4px;
+    border-style: solid;
+    border-color: #9E553C;
+    font-size: 66px;
+    position: absolute;
+    right: calc(50% - 112px);
+    top: 60%;
+    color: white;
+    letter-spacing: -2px;
+    -webkit-text-stroke: 3px #9E553C;
+    font-family: jua;
+    -webkit-text-stroke: 2px #9E553C;
+    font-size: 26px;
+    position: unset;
+}
+
+.quantity-input {
+    width: 24px;
+    -webkit-text-stroke: 2px #9E553C;
+    font-size: 22px;
 }

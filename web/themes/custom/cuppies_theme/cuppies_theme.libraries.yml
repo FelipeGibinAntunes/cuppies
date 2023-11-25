@@ -5,3 +5,5 @@ global-css:
       css/elements.css: { }
   js:
     js/elements.js: { }
+  dependencies:
+    - core/jquery

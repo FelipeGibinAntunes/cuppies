@@ -7,6 +7,4 @@ regions:
   header: 'Header'
   content: 'Content'
   footer: 'Footer' 
-libraries:
-  - cuppies_theme/global-css
   
