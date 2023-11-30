@@ -1,0 +1,7 @@
+cuppies_theme.form:
+  path: '/web/cart'
+  defaults:
+    _form: '\Drupal\cuppies_theme\Form\CartForm'
+    _title: 'Custom User Ajax Form'
+  requirements:
+    _permission: 'access content'

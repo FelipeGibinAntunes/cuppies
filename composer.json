@@ -21,6 +21,7 @@
         "drupal/core-composer-scaffold": "^10.1",
         "drupal/core-project-message": "^10.1",
         "drupal/core-recommended": "^10.1",
+        "drupal/disable_messages": "^2.1",
         "drupal/fontyourface": "4.0",
         "drupal/login_popup": "2.1",
         "drupal/pages_restriction": "2.0",
@@ -28,7 +29,8 @@
         "drupal/redirect_page_by_role": "^3.2",
         "drupal/simple_popup_blocks": "3.1",
         "drupal/slick": "2.10",
-        "drupal/slick_views": "2.8"
+        "drupal/slick_views": "2.8",
+        "drupal/stringoverrides": "1.8"
     },
     "conflict": {
         "drupal/drupal": "*"

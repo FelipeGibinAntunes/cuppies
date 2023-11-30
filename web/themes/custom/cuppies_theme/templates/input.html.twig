@@ -1,0 +1,18 @@
+{#
+/**
+ * @file
+ * Default theme implementation for an 'input' #type form element.
+ *
+ * Available variables:
+ * - attributes: A list of HTML attributes for the input element.
+ * - children: Optional additional rendered elements.
+ *
+ * @see template_preprocess_input()
+ *
+ * @ingroup themeable
+ */
+#}
+ {% if attributes.id == 'edit-field-name-value' %}
+    <img src="/web/sites/default/files/inline-images/search.png" width="32" height="32">
+ {% endif %}
+<input{{ attributes }} />{{ children }}

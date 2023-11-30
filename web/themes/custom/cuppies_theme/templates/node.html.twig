@@ -70,8 +70,12 @@
 #}
 <article{{ attributes }}>
 
-    {% if isProduct or isCart %}
+    {% if isCart or isAccount or isSettings or isOrders %}
       <button class="back-button" onclick="window.location='main';" type="button">Return</button>
+    {% endif %}
+
+    {% if isProduct %}
+      <button class="back-button" onclick="window.location='../main';" type="button">Return</button>
     {% endif %}
 
   {{ title_prefix }}
@@ -102,6 +106,10 @@
 
     {% if isCart %}
     {{ CartForm }}
+    {% endif %}
+
+    {% if isOrders %}
+    {{ OrdersForm }}
     {% endif %}
 
 </article>

@@ -3,7 +3,10 @@ global-css:
   css: 
     theme:
       css/elements.css: { }
+
+global-js:
   js:
     js/elements.js: { }
   dependencies:
     - core/jquery
+    - core/once

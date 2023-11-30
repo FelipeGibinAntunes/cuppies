@@ -63,7 +63,16 @@ function cuppies_theme_preprocess_node(&$variables) {
       $variables['CartForm'] = \Drupal::formBuilder()->getForm('Drupal\cuppies_theme\Form\CartForm');
     }
   }
-
+  if ($node->id() == 12) {
+    $variables['isAccount'] = true;
+  }
+  if ($node->id() == 13) {
+    $variables['isOrders'] = true;
+    $variables['OrdersForm'] = \Drupal::formBuilder()->getForm('Drupal\cuppies_theme\Form\OrdersForm');
+  }
+  if ($node->id() == 14) {
+    $variables['isSettings'] = true;
+  }
 }
 
 /**

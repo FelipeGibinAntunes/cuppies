@@ -52,28 +52,61 @@ class CartForm extends FormBase {
               '#uri' => $node->get('field_image')->entity->getFileUri(),
               '#alt' => $node->getTitle(),
             ];
-  
+
             $form['product'][$nodeId]['price'] = [
-              '#markup' => '<p>$' . $node->get('field_price')->value . '</p>',
+              '#markup' => '<p class="update-price" data='.$node->get('field_price')->value.'>$' .($this->getProductQuantity($nodeId) * $node->get('field_price')->value) . '</p>',
             ];
   
-            $form['product'][$nodeId]['quantity'] = [
-              '#type' => 'number',
-              '#title' => $this->t('Quantity'),
-              '#default_value' => $quantity,
-              '#min' => 1,
-              '#max' => 99,
-            ];
-  
-            $form['product'][$nodeId]['remove'] = [
-              '#type' => 'submit',
-              '#value' => $this->t('Remove from Cart'),
-              '#submit' => ['::removeFromCartSubmit'],
-              '#attributes' => ['class' => ['remove-cart']],
-            ];
-          } else {
-            // Update quantity for existing product.
-            $form['product'][$nodeId]['quantity']['#default_value'] += $quantity;
+            $form['product'][$nodeId]['quantity'] = array(
+              '#prefix' => '<div class="group-wrapper">',
+              '#suffix' => '</div>',
+            );
+            
+            // Add minus button.
+            $form['product'][$nodeId]['quantity']['minus'] = array(
+              '#type' => 'button',
+              '#value' => '-',
+              '#allowed_tags' => ['input'],
+              '#data' => $nodeId,
+              '#attributes' => array(
+                'class' => array('quantity-button quantity-minus'),
+              ),
+              '#ajax' => [
+                'callback' => '::submitFormAjaxMinus',
+                'event' => 'click',
+                'wrapper' => 'trash'
+              ],
+            );
+        
+            // Textfield form element.
+            $form['product'][$nodeId]['quantity']['product_quantity'] = array(
+              '#type' => 'textfield',
+              '#default_value' => $this->getProductQuantity($nodeId),
+              '#prefix' => '<div class="quantity-wrapper">',
+              '#suffix' => '</div>',
+              '#attributes' => array(
+                'class' => array('quantity-input'),
+                'min' => 1,
+                'max' => 99,
+              ),
+            );
+        
+            // Add plus button.
+            $form['product'][$nodeId]['quantity']['plus'] = array(
+              '#type' => 'button',
+              '#value' => '+',
+              '#allowed_tags' => ['input'],
+              '#data' => $nodeId,
+              '#attributes' => array(
+                'class' => array('quantity-button quantity-plus'),
+              ),
+              '#ajax' => [
+                'callback' => '::submitFormAjaxPlus',
+                'event' => 'click',
+                'wrapper' => 'trash'
+              ],
+            );
+            
           }
   
           // Update total price.
@@ -83,9 +116,10 @@ class CartForm extends FormBase {
   
       // Display the total price.
       $form['total_price'] = [
-        '#markup' => '<p>Total Price: $' . $totalPrice . '</p>',
+        '#markup' => '<p class="total-price">Total Price: $' . $totalPrice . '</p>',
       ];
   
+
       // Add a submit button for clearing the cart.
       $form['clear_cart'] = [
         '#type' => 'submit',
@@ -93,14 +127,19 @@ class CartForm extends FormBase {
         '#submit' => ['::clearCartSubmit'],
         '#attributes' => ['class' => ['clear-cart']],
       ];
-  
+        
       // Add a submit button for the entire form.
       $form['submit'] = [
         '#type' => 'submit',
         '#value' => $this->t('Proceed to Checkout'),
         '#attributes' => ['class' => ['submit-cart']],
       ];
-  
+
+      $form['trash'] = [
+        '#markup' => '<div id="trash"></div>',
+      ];
+      
+      $form['total-price-fr'] = $totalPrice;
       return $form;
     }
   
@@ -108,23 +147,90 @@ class CartForm extends FormBase {
      * {@inheritdoc}
      */
     public function submitForm(array &$form, FormStateInterface $form_state) {
-      // Handle the form submission.
-      // You can add custom logic here.
-    }
-  
-    /**
-     * Custom submit handler for "Remove from Cart" button.
-     */
-    public function removeFromCartSubmit(array &$form, FormStateInterface $form_state) {
-      // Handle the submission of the "Remove from Cart" button.
-      // You can add custom logic here.
+      $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
+      $currentCart = $user->get('field_cart_products')->getValue();
+      foreach ($currentCart as $key => $value) {
+        $newOrder['field_item'][] = $value;
+      }
+      $new_node = Node::create([
+        'type' => 'order',
+        'title' => REQUEST_TIME, 
+        'field_total_value' => $form['total-price-fr'],
+        'field_status' => 'payment pending',
+        'field_timestamp' => REQUEST_TIME,
+        'field_item' => $currentCart,
+      ]);
+      $new_node->save();
+      $orders = $user->get('field_order_products')->getValue();
+      $orders[] = $new_node;
+      $user->set('field_order_products', $orders);
+      $user->set('field_cart_products', []);
+      $user->save();
     }
   
     /**
      * Custom submit handler for "Clear Cart" button.
      */
     public function clearCartSubmit(array &$form, FormStateInterface $form_state) {
-      // Handle the submission of the "Clear Cart" button.
-      // You can add custom logic here.
+      $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
+      $user->set('field_cart_products', []);
+      $user->save();
     }
+
+    public function getProductQuantity(int $nodeId) {
+      $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
+      $currentCart = $user->get('field_cart_products')->getValue();
+      $count = 0;
+      foreach ($currentCart as $item) {
+        if ($item['target_id'] == $nodeId) {
+          $count++;
+        }
+      }
+      return $count;
+    }
+
+
+  /**
+   * Ajax callback for the form submission.
+   */
+  public function submitFormAjaxMinus(array &$form, FormStateInterface $form_state) {
+    $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
+    $currentCart = $user->get('field_cart_products')->getValue();
+    $nid = $form_state->getTriggeringElement()['#data'];
+    $flag = true;
+    $newCart = [];
+    foreach ($currentCart as $item) {
+      if ($flag && $item['target_id'] == $nid) {
+        $flag = false;
+        continue;
+      }
+      $newCart[] = $item;
+    }
+    $user->set('field_cart_products', $newCart);
+    $user->save();
+    return ['#markup' => '<div id="trash">'.$test.'</div>'];
+  }
+
+  public function submitFormAjaxPlus(array &$form, FormStateInterface $form_state) {
+    $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
+    $currentCart = $user->get('field_cart_products')->getValue();
+    $nid = $form_state->getTriggeringElement()['#data'];
+    $newCart = $currentCart;
+    $cartLength = count($newCart);
+    $newCart[$cartLength] = ["target_id" => $nid];
+    $user->set('field_cart_products', $newCart);
+    $user->save();
+    return ['#markup' => '<div id="trash"></div>'];
+  }
+
+
+
+
+
+
+
+
+
+
+
   }
