@@ -659,8 +659,9 @@ fieldset {
     -webkit-text-stroke: 3px #9E553C;
     font-family: jua;
     -webkit-text-stroke: 2px #9E553C;
-    font-size: 26px;
+    font-size: 22px;
     position: unset;
+    z-index: 200;
 }
 
 .quantity-input {
@@ -849,4 +850,76 @@ body hr {
 
 .form-checkboxes div label {
     color: #7a4330;
+}
+
+.account-form {
+    text-align: center;
+    width: 98%;
+    height: 98%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: -1;
+}
+
+.address-field {
+    width: 60%;
+}
+
+.payment-field {
+    width: 60%;
+}
+
+.payment-title {
+    top: 41.5%;
+    position: relative;
+    color: #9E553C;
+}
+
+.address-title {
+    top: 45%;
+    position: relative;
+    color: #9E553C;
+}
+
+.address-group-wrapper {
+    top: 45%;
+    position: relative;
+}
+
+
+.submit-account {
+    font-size: 24px;
+    -webkit-text-stroke: 2px #9E553C;
+    position: absolute;
+    top: 90%;
+    width: 50%;
+    right: 25%;
+}
+
+
+.form-item-payment0 {
+    top: 42%;
+    position: relative;
+}
+.form-item-payment1 {
+    top: 42%;
+    position: relative;
+}
+.form-item-payment2 {
+    top: 42%;
+    position: relative;
+}
+
+.form-item-address0 {
+    top: 45%;
+    position: relative;
+}
+.form-item-address1 {
+    top: 45%;
+    position: relative;
+}
+.form-item-address2 {
+    top: 45%;
+    position: relative;
 }

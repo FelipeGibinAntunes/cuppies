@@ -65,6 +65,7 @@ function cuppies_theme_preprocess_node(&$variables) {
   }
   if ($node->id() == 12) {
     $variables['isAccount'] = true;
+    $variables['AccountForm'] = \Drupal::formBuilder()->getForm('Drupal\cuppies_theme\Form\AccountForm');
   }
   if ($node->id() == 13) {
     $variables['isOrders'] = true;

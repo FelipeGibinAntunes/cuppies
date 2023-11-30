@@ -21,6 +21,7 @@
         "drupal/core-composer-scaffold": "^10.1",
         "drupal/core-project-message": "^10.1",
         "drupal/core-recommended": "^10.1",
+        "drupal/devel": "^5.1",
         "drupal/disable_messages": "^2.1",
         "drupal/fontyourface": "4.0",
         "drupal/login_popup": "2.1",
