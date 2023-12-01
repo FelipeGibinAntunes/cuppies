@@ -88,4 +88,15 @@
       }
     };
   })(jQuery);
-  
+
+  (function ($) {
+    Drupal.behaviors.hideMessage = {
+      attach: function (context, settings) {
+        // Add a click event listener to the image with the ID "my-image".
+        $('.close-message', context).on('click', function () {
+          // Toggle the display property of the element with the ID "target-element".
+          $('.messages-class').hide();
+        });
+      }
+    };
+  })(jQuery);

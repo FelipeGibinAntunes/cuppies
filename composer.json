@@ -26,6 +26,7 @@
         "drupal/fontyourface": "4.0",
         "drupal/login_popup": "2.1",
         "drupal/pages_restriction": "2.0",
+        "drupal/redirect": "1.9",
         "drupal/redirect_after_login": "3.0",
         "drupal/redirect_page_by_role": "^3.2",
         "drupal/simple_popup_blocks": "3.1",

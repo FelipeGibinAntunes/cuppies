@@ -41,13 +41,6 @@ function cuppies_theme_preprocess_views_view_unformatted(&$variables) {
 }
 
 /**
- * Implements hook_form_alter().
- */
-function cuppies_theme_form_user_register_form_alter(&$form, &$form_state, $form_id) {
-  $form['actions']['submit']['#value'] = 'Register';
-}
-
-/**
  * Implements template_preprocess_node().
  */
 function cuppies_theme_preprocess_node(&$variables) {
@@ -106,4 +99,28 @@ function cuppies_theme_preprocess_views_view_field(&$variables) {
     $replacement = '<a class="product-view-title" href="/web/node/5" hreflang="en">';
 
     $newString = str_replace($toBeReplaced, $replacement, $originalString);
+}
+
+function cuppies_theme_form_user_register_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  // Add a custom validation function to the email field.
+  $form['mail']['#element_validate'][] = 'cuppies_theme_validate_email_pattern';
+}
+
+/**
+ * Custom validation function to add a pattern to the email field.
+ */
+function cuppies_theme_validate_email_pattern($element, &$form_state, $form) {
+// Get the submitted email value.
+$email_value = $form_state->getValue('mail');
+
+// Define the pattern you want to enforce (replace with your own pattern).
+$pattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
+
+// Check if the email matches the pattern.
+if (!preg_match($pattern, $email_value)) {
+  // If the pattern doesn't match, add a form error.
+  \Drupal::messenger()->addMessage('Insert a valid email (example@example.com)');
+  // Prevent the form from redirecting.
+  $form_state->set('rebuild', TRUE);
+}
 }

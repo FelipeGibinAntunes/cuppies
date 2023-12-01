@@ -65,6 +65,7 @@ class AccountForm extends FormBase {
   $user->set('field_payment', $newPayment);
   $user->set('field_address', $newAddress);
   $user->save();
+  \Drupal::messenger()->addMessage('Information updated successfully');
 }
 
 }

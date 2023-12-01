@@ -27,7 +27,7 @@ class CartForm extends FormBase {
       $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
       // Get the users cart products.
       $cartProducts  = $user->get('field_cart_products')->getValue();
-  
+
       $totalPrice = 0;
 
       foreach ($cartProducts as $key => $productId) {
@@ -162,12 +162,21 @@ class CartForm extends FormBase {
       ];
         
       // Add a submit button for the entire form.
-      $form['submit'] = [
-        '#type' => 'submit',
-        '#value' => $this->t('Proceed to Checkout'),
-        '#attributes' => ['class' => ['submit-cart']],
-      ];
-
+      if (count($cartProducts) < 1) {
+        $form['submit'] = [
+          '#type' => 'submit',
+          '#value' => $this->t('Proceed to Checkout'),
+          '#attributes' => ['class' => ['submit-cart', 'disabled']],
+        ];
+      }
+      else {
+        $form['submit'] = [
+          '#type' => 'submit',
+          '#value' => $this->t('Proceed to Checkout'),
+          '#attributes' => ['class' => ['submit-cart']],
+        ];
+      }
+      
       $form['trash'] = [
         '#markup' => '<div id="trash"></div>',
       ];
@@ -175,7 +184,7 @@ class CartForm extends FormBase {
       $form['total-price-fr'] = $totalPrice;
       return $form;
     }
-  
+    
     /**
      * {@inheritdoc}
      */
@@ -203,6 +212,7 @@ class CartForm extends FormBase {
       $user->set('field_order_products', $orders);
       $user->set('field_cart_products', []);
       $user->save();
+      \Drupal::messenger()->addMessage('Order concluded successfully');
     }
   
     /**
@@ -212,6 +222,7 @@ class CartForm extends FormBase {
       $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
       $user->set('field_cart_products', []);
       $user->save();
+      \Drupal::messenger()->addMessage('Cart cleared successfully');
     }
 
     public function getProductQuantity(int $nodeId) {
@@ -259,15 +270,4 @@ class CartForm extends FormBase {
     $user->save();
     return ['#markup' => '<div id="trash"></div>'];
   }
-
-
-
-
-
-
-
-
-
-
-
   }

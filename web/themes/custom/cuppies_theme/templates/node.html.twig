@@ -70,8 +70,13 @@
 #}
 <article{{ attributes }}>
 
-    {% if isCart or isAccount or isSettings or isOrders %}
-      <button class="back-button" onclick="window.location='main';" type="button">Return</button>
+    {% if isCart or isSettings or isOrders %}
+      <button class="back-button" onclick="window.location='main'" type="button">Return</button>
+    {% endif %}
+
+    {% if isAccount %}
+      <button class="back-button" onclick="window.location='main'" type="button">Return</button>
+      <button class="logout-button" onclick="window.location='user/logout'" type="button">Logout</button>
     {% endif %}
 
     {% if isProduct %}

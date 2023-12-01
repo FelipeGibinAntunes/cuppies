@@ -21,7 +21,8 @@
  * @ingroup themeable
  */
 #}
-<div data-drupal-messages>
+<div data-drupal-messages class="messages-class">
+<button type="button" class="close-message">x</button>
 {% for type, messages in message_list %}
   <div role="contentinfo" aria-label="{{ status_headings[type] }}"{{ attributes|without('role', 'aria-label') }}>
     {% if type == 'error' %}
@@ -30,16 +31,14 @@
     {% if status_headings[type] %}
       <h2 class="visually-hidden">{{ status_headings[type] }}</h2>
     {% endif %}
-    {% if messages|length > 1 and status_headings[type] != Status message %}
+    {% if messages|length > 1 %}
       <ul>
         {% for message in messages %}
           <li>{{ message }}</li>
         {% endfor %}
       </ul>
     {% else %}
-      {% if status_headings[type] != 'Status message' and status_headings[type] != 'error' %}
-              {{ messages|first }}
-      {% endif %}
+      {{ messages|first }}
     {% endif %}
     {% if type == 'error' %}
       </div>

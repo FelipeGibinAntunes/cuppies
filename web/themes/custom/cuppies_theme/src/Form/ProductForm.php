@@ -77,7 +77,7 @@ class ProductForm extends FormBase {
   }
   $user->set('field_cart_products', $newCart);
   $user->save();
-  \Drupal::messenger()->addMessage('x'.$quantity." ".$node->get('title')->value." In cart");
+  \Drupal::messenger()->addMessage('x'.$quantity." ".$node->get('title')->value." added to cart");
 }
 
 public function getProductQuantity() {
