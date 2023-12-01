@@ -53,17 +53,22 @@ class CartForm extends FormBase {
               '#alt' => $node->getTitle(),
             ];
 
-            $form['product'][$nodeId]['price'] = [
+            $form['product'][$nodeId]['groupValue'] = [
+              '#prefix' => '<div class="groupValue">',
+              '#suffix' => '</div>',
+            ];
+
+            $form['product'][$nodeId]['groupValue']['price'] = [
               '#markup' => '<p class="update-price" data='.$node->get('field_price')->value.'>$' .($this->getProductQuantity($nodeId) * $node->get('field_price')->value) . '</p>',
             ];
   
-            $form['product'][$nodeId]['quantity'] = array(
+            $form['product'][$nodeId]['groupValue']['quantity'] = array(
               '#prefix' => '<div class="group-wrapper">',
               '#suffix' => '</div>',
             );
             
             // Add minus button.
-            $form['product'][$nodeId]['quantity']['minus'] = array(
+            $form['product'][$nodeId]['groupValue']['quantity']['minus'] = array(
               '#type' => 'button',
               '#value' => '-',
               '#allowed_tags' => ['input'],
@@ -79,7 +84,7 @@ class CartForm extends FormBase {
             );
         
             // Textfield form element.
-            $form['product'][$nodeId]['quantity']['product_quantity'] = array(
+            $form['product'][$nodeId]['groupValue']['quantity']['product_quantity'] = array(
               '#type' => 'textfield',
               '#default_value' => $this->getProductQuantity($nodeId),
               '#prefix' => '<div class="quantity-wrapper">',
@@ -92,7 +97,7 @@ class CartForm extends FormBase {
             );
         
             // Add plus button.
-            $form['product'][$nodeId]['quantity']['plus'] = array(
+            $form['product'][$nodeId]['groupValue']['quantity']['plus'] = array(
               '#type' => 'button',
               '#value' => '+',
               '#allowed_tags' => ['input'],
@@ -113,7 +118,35 @@ class CartForm extends FormBase {
           $totalPrice += $node->get('field_price')->value * $quantity;
         }
       }
-  
+      
+      $addresses = [];
+      foreach ($user->get('field_address')->getValue() as $address) {
+        $addresses[] = $address;
+      }
+      $form['address'] = [
+        '#type' => 'select',
+        '#title' => $this->t('Address'),
+        '#options' => [
+          $addresses[0]['value'],
+          $addresses[1]['value'],
+          $addresses[2]['value'],
+        ],
+      ];
+
+      $payments = [];
+      foreach ($user->get('field_payment')->getValue() as $payment) {
+        $payments[] = $payment;
+      }
+      $form['payment'] = [
+        '#type' => 'select',
+        '#title' => $this->t('Payment'),
+        '#options' => [
+          $payments[0]['value'],
+          $payments[1]['value'],
+          $payments[2]['value'],
+        ],
+      ];
+
       // Display the total price.
       $form['total_price'] = [
         '#markup' => '<p class="total-price">Total Price: $' . $totalPrice . '</p>',
@@ -149,6 +182,8 @@ class CartForm extends FormBase {
     public function submitForm(array &$form, FormStateInterface $form_state) {
       $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
       $currentCart = $user->get('field_cart_products')->getValue();
+      $addressNumber = $form_state->getValue('address');
+      $paymentNumber = $form_state->getValue('payment');
       foreach ($currentCart as $key => $value) {
         $newOrder['field_item'][] = $value;
       }
@@ -157,6 +192,8 @@ class CartForm extends FormBase {
         'title' => REQUEST_TIME, 
         'field_total_value' => $form['total-price-fr'],
         'field_status' => 'payment pending',
+        'field_payment' => $user->get('field_payment')->getValue()[$paymentNumber],
+        'field_address' => $user->get('field_address')->getValue()[$addressNumber],
         'field_timestamp' => REQUEST_TIME,
         'field_item' => $currentCart,
       ]);

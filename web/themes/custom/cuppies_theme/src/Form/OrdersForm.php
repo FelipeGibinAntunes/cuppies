@@ -39,6 +39,8 @@ foreach ($orders as $key => $order) {
     $timestamp = $node->get('field_timestamp')->value;
     $totalValue = $node->get('field_total_value')->value;
     $status = $node->get('field_status')->value;
+    $payment = $node->get('field_payment')->value;
+    $address = $node->get('field_address')->value;
 
     // Format the timestamp.
     $formattedTimestamp = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'Y-m-d H:i:s');
@@ -56,6 +58,14 @@ foreach ($orders as $key => $order) {
     // Add a field for status.
     $form[$key]['status'] = [
       '#markup' => '<p>' . $this->t('Status: @status', ['@status' => $status]) . '</p>',
+    ];
+
+    $form[$key]['payment'] = [
+      '#markup' => '<p>' . $this->t('Payment: @payment', ['@payment' => $payment]) . '</p>',
+    ];
+
+    $form[$key]['address'] = [
+      '#markup' => '<p>' . $this->t('Address: @address', ['@address' => $address]) . '</p>',
     ];
 
     $items = $node->get('field_item')->referencedEntities();

@@ -497,11 +497,11 @@ button[role="tab"] {
 
 .field_name {
     color: white;
-    font-size: 64px;
+    font-size: 54px;
     -webkit-text-stroke: 3.5px #9E553C;
     letter-spacing: -1px;
-    top: -200px;
-    position: relative;
+    top: 312px;
+    position: absolute;
     text-align: center;
     line-height: 54px;
 }
@@ -511,8 +511,6 @@ button[role="tab"] {
     margin: 5px;
     text-align: center;
     font-size: 22px;
-    top: -50px;
-    position: relative;
 }
 
 .field_price {
@@ -570,8 +568,7 @@ fieldset {
     align-items: center;
     width: 100%;
     justify-content: space-evenly;
-    top: -44px;
-    position: relative;
+
 }
 
 .product-form .button {
@@ -746,11 +743,12 @@ fieldset {
 
 .cart-form fieldset {
     text-align: center;
+    margin-top: 10px;
 }
 
 .update-price {
     color: white;
-    font-size: 22px;
+    font-size: 26px;
 }
 
 .total-price {
@@ -922,4 +920,32 @@ body hr {
 .form-item-address2 {
     top: 45%;
     position: relative;
+}
+
+#edit-address {
+    width: 90%;
+}
+
+#edit-payment {
+    width: 90%;
+}
+
+.js-form-item-address label {
+    font-size: 22px;
+    color: #7a4330;
+    padding-left: 28px;
+}
+
+.js-form-item-payment label {
+    font-size: 22px;
+    color: #7a4330;
+    padding-left: 28px;
+}
+
+.js-form-item-address{
+    margin-top: 10px;
+}
+
+.js-form-item-payment {
+    margin-top: 10px;
 }
