@@ -107,6 +107,10 @@
         }
     },
     "require-dev": {
-        "drush/drush": "^12.4"
+        "behat/mink": "^1.10",
+        "drush/drush": "^12.4",
+        "phpspec/prophecy-phpunit": "^2.0",
+        "phpunit/phpunit": "^9.6",
+        "symfony/phpunit-bridge": "^7.0"
     }
 }

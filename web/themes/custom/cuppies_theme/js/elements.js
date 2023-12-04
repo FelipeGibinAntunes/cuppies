@@ -58,12 +58,40 @@
             });
              $('.total-price').eq(0).text('Total Price: $' + totalSum.toFixed(2));
             
-  
           });
         })
       }
     };
   })(jQuery, Drupal, drupalSettings);
+
+
+  (function ($) {
+    Drupal.behaviors.updateOnChange = {
+      attach: function (context, settings) {
+        console.log('attach');
+        // Add a click event listener to the image with the ID "my-image".
+        $('.quantity-input', context).on('change', function () {
+          var $quantityWrapper = $(this).closest('.group-wrapper');
+          var $quantityInput = $quantityWrapper.find('.quantity-input');
+          var $price = $quantityWrapper.siblings('.update-price');
+          var currentQuantity = Number($quantityInput.val());
+  
+          $quantityInput.val(currentQuantity);
+          var dataValue = parseFloat($price.attr('data'));
+          var newValue = dataValue * currentQuantity;
+          $price.text('$' + newValue.toFixed(2));
+          $price.attr('value','$' + newValue.toFixed(2));
+          var priceElements = $('.update-price');
+          var totalSum = 0;
+          priceElements.each(function () {
+              var priceText = $(this).text().substring(1);
+              totalSum += parseFloat(priceText);
+          });
+           $('.total-price').eq(0).text('Total Price: $' + totalSum.toFixed(2));
+        });
+      }
+    };
+  })(jQuery);
 
   (function ($) {
     Drupal.behaviors.showOverlay = {
@@ -84,6 +112,12 @@
         $('#hamburger-active', context).on('click', function () {
           // Toggle the display property of the element with the ID "target-element".
           $('.overlay').hide();
+        });
+        $('.overlay', context).on('click', function () {
+          if (event.target === this) {
+            // Toggle the display property of the element with the ID "target-element".
+            $('.overlay').hide();
+          }
         });
       }
     };

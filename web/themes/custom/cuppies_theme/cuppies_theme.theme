@@ -66,6 +66,7 @@ function cuppies_theme_preprocess_node(&$variables) {
   }
   if ($node->id() == 14) {
     $variables['isSettings'] = true;
+    $variables['SettingsForm'] = \Drupal::formBuilder()->getForm('Drupal\cuppies_theme\Form\SettingsForm');
   }
 }
 

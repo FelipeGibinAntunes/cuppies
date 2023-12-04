@@ -58,10 +58,12 @@ class ProductForm extends FormBase {
 
  public function validateForm(array &$form, FormStateInterface $form_state) {
    if (strlen($form_state->getValue('product_quantity')) < 1) {
-     $form_state->setErrorByName('product_quantity', $this->t('Select a quantity.'));
+    \Drupal::messenger()->addMessage('Select a valid quantity (min 1)');
+    $form_state->setErrorByName('product_quantity', $this->t('Select a valid quantity. (min 1)'));
    }
    if ($form_state->getValue('product_quantity') < 1 || $form_state->getValue('product_quantity') > 99) {
-    $form_state->setErrorByName('product_quantity', $this->t('Select a valid quantity.'));
+    \Drupal::messenger()->addMessage('Select a valid quantity (max 99)');
+    $form_state->setErrorByName('product_quantity', $this->t('Select a valid quantity. (max 99)'));
    }
  }
  

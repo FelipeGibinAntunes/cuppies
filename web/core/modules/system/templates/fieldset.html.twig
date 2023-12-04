@@ -67,5 +67,8 @@
     {% if description_display in ['after', 'invisible'] and description.content %}
       <div{{ description.attributes.addClass('description') }}>{{ description.content }}</div>
     {% endif %}
+    {% if attributes.id == 'edit-field-tags-target-id--wrapper' %}
+      <button class="clear-filters" onclick="window.location='main'" type="button">Clear Filters</button>  
+    {% endif %}
   </div>
 </fieldset>
