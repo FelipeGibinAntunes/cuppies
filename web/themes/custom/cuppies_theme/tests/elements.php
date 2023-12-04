@@ -149,7 +149,7 @@ $settingsMock = $this->getMockBuilder('Drupal\Core\Render\Element\RenderElement'
  /**
  * Test hideOverlay behavior.
  */
-public function testAttachMethod() {
+public function testHideOverlay() {
 
   $contextMock = $this->getMockBuilder('Drupal\Core\Render\Element\RenderElement')
   ->disableOriginalConstructor()
