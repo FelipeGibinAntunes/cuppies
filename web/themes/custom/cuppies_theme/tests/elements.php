@@ -181,7 +181,7 @@ $settingsMock = $this->getMockBuilder('Drupal\Core\Render\Element\RenderElement'
  /**
  * Test hideMessage behavior.
  */
-public function testhideMessageBehavior() {
+public function testHideMessageBehavior() {
   $contextMock = $this->getMockBuilder('Drupal\Core\Render\Element\RenderElement')
   ->disableOriginalConstructor()
   ->getMock();
